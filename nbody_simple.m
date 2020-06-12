@@ -6,7 +6,7 @@ dt = 0.01;  % size of time step
 G  = 1;     % gravitational constant
 
 % initialise body mass and position
-M  = [1;rand(N-1,1).*0.0001];
+M  = [4;rand(N-1,1).*0.0001];
 X  = [0,0;randn(N-1,2).*5];
 
 % calculate initial orbital velocity
@@ -14,6 +14,8 @@ r  = sum((X-X(1,:)).^2,2).^0.5 + 1e-32;
 R  = (X-X(1,:))./r;
 V  = sqrt(G.*M(1)./r) .* [R(:,2),-R(:,1)];
 
+
+%Josh's comment
 for k = 1:K
     
     % plot model progress
