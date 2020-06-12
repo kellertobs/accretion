@@ -18,6 +18,7 @@ V  = sqrt(G.*M(1)./r) .* [R(:,2),-R(:,1)];
 %Josh's comment
 for k = 1:K
     
+    tic;
     % plot model progress
     if ~mod(k-1,25)  % <- lower number for more frequent plots
         figure(1); clf;
@@ -27,16 +28,15 @@ for k = 1:K
         drawnow;
     end
     
-    % loop through all bodies
-    for ni = 1:N
-        for nj = 1:N
-            R       = sum((X(ni,:)-X(nj,:)).^2).^0.5 + 1e-32;  % compute distance between ni, nj
-            F       = - G*M(ni)*M(nj)/R^2 .* (X(ni,:)-X(nj,:))./R;  % computing force between ni, nj
-            V(ni,:) = V(ni,:) + F/M(ni) * dt;  % update velocity of body ni
-        end
+    % calculate new orbital velocity
+    for nj = 1:N
+        D  = sum((X-X(nj,:)).^2,2).^0.5 + 1e-16;
+        Fj = - G.*(M.*M(nj))./D.^2 .* (X-X(nj,:))./D;
+        V  = V + Fj./M .* dt;
     end
     
     X = X + V.*dt;  % update position of all bodies
+<<<<<<< HEAD
     
     % detect collisions and merge collided bodies
     nj = 1;
@@ -55,4 +55,8 @@ for k = 1:K
         nj = nj+1;
     end
     
+=======
+    t = toc;
+    disp(t);
+>>>>>>> master
 end
