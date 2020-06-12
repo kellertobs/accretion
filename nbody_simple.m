@@ -25,14 +25,15 @@ for k = 1:K
         drawnow;
     end
     
+    % loop through all bodies
     for ni = 1:N
         for nj = 1:N
-            R       = sum((X(ni,:)-X(nj,:)).^2).^0.5 + 1e-32;
-            F       = - G*M(ni)*M(nj)/R^2 .* (X(ni,:)-X(nj,:))./R;
-            V(ni,:) = V(ni,:) + F/M(ni) * dt;
+            R       = sum((X(ni,:)-X(nj,:)).^2).^0.5 + 1e-32;  % compute distance between ni, nj
+            F       = - G*M(ni)*M(nj)/R^2 .* (X(ni,:)-X(nj,:))./R;  % computing force between ni, nj
+            V(ni,:) = V(ni,:) + F/M(ni) * dt;  % update velocity of body ni
         end
     end
     
-    X = X + V.*dt;
+    X = X + V.*dt;  % update position of all bodies
     
 end
