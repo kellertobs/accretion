@@ -6,7 +6,7 @@ dt = 0.01;  % size of time step
 G  = 1;     % gravitational constant
 
 % initialise body mass and position
-M  = [1;rand(N-1,1).*0.0001];
+M  = [2;rand(N-1,1).*0.0001];
 X  = [0,0;randn(N-1,2).*5];
 
 % calculate initial orbital velocity
