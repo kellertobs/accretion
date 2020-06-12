@@ -36,7 +36,6 @@ for k = 1:K
     end
     
     X = X + V.*dt;  % update position of all bodies
-<<<<<<< HEAD
     
     % detect collisions and merge collided bodies
     nj = 1;
@@ -55,8 +54,4 @@ for k = 1:K
         nj = nj+1;
     end
     
-=======
-    t = toc;
-    disp(t);
->>>>>>> master
 end
