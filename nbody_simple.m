@@ -1,6 +1,6 @@
 
 % set parameters
-N  = 2e3;   % number of bodies
+N  = 5e2;   % number of bodies
 K  = 1e6;   % number of time steps
 dt = 0.01;  % size of time step
 G  = 1;     % gravitational constant
@@ -43,12 +43,14 @@ for k = 1:K
     % detect collisions and merge collided bodies
     nj = 1;
     while nj < N
-        D    = sum((X-X(nj,:)).^2,2).^0.5 + 1e-16;
-        ind  = find(D < (M+M(nj)).^(1/3)./10,2);
-        if length(ind)>1
-            ind = ind(end);
-            V(nj,:)   = (M(ind)*V(ind,:) + M(nj)*V(nj,:))/(M(ind)+M(nj));
-            M(nj)     =  M(ind) + M(nj);
+        D         = sum((X-X(nj,:)).^2,2).^0.5 + 1e-16;
+        ind       = (D < (M+M(nj)).^(1/3)./10);
+        ind(nj)   = 0;
+        Mc        = M(ind);
+        Vc        = V(ind,:);
+        if ~isempty(Mc)
+            V(nj,:)   = ((Mc*Vc) + M(nj)*V(nj,:))/(Mc+M(nj));
+            M(nj)     =  Mc + M(nj);
             X(ind,:)  =  [];
             V(ind,:)  =  [];
             M(ind)    =  [];
