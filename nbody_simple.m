@@ -1,6 +1,6 @@
 
 % set parameters
-N  = 1e2;   % number of bodies
+N  = 2e3;   % number of bodies
 K  = 1e6;   % number of time steps
 dt = 0.01;  % size of time step
 G  = 1;     % gravitational constant
@@ -18,14 +18,17 @@ V  = sqrt(G.*M(1)./r) .* [R(:,2),-R(:,1)];
 %Josh's comment
 for k = 1:K
     
-    tic;
     % plot model progress
     if ~mod(k-1,25)  % <- lower number for more frequent plots
         figure(1); clf;
-        scatter(X(1,1),X(1,2),M(1).*100,(V(1,1).^2+V(1,2).^2).^0.5,'filled'); hold on; colorbar; axis equal;
-        scatter(X(2:N,1),X(2:N,2),M(2:N).*2e5,(V(2:N,1).^2+V(2:N,2).^2).^0.5,'filled');
-        axis([-20 20 -20 20]);
+        plot(X(1,1),X(1,2),'ko','MarkerFaceColor','k','MarkerSize',M(1).^(1/3).*20); hold on; box on; axis equal;
+        scatter(X(2:N,1),X(2:N,2),M(2:N).^(1/3).*2e2,sum(V(2:N,:).^2,2).^0.5,'filled'); caxis([0.25,1]); colorbar;
+        axis([X(1,1)-20,X(1,1)+20,X(1,2)-20,X(1,2)+20]);
+        title('Accretionary Disk');
         drawnow;
+        figure(2); clf;
+        histogram(log10(M),min(50,max(5,round(N/10))));
+        title('Size Distribution');
     end
     
     % calculate new orbital velocity
